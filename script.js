@@ -1,6 +1,7 @@
 "use strict";
 
 import { items } from "./items.js";
+import { levels } from "./levels.js";
 
 class PlayerObject {
   inventory = [];
@@ -20,6 +21,17 @@ class PlayerObject {
   }
   _setName(name) {
     return (this.name = name);
+  }
+  _getLevel(exp) {
+    const level = levels.find((level, index) => {
+      const nextLevel = levels[index + 1];
+      if (nextLevel) {
+        return exp >= level.exp && exp < nextLevel.exp;
+      } else {
+        return exp >= level.exp;
+      }
+    });
+    return level ? level.level : null;
   }
 }
 
@@ -44,7 +56,9 @@ class App {
     this._setLocalStorage();
   }
   _renderStatsDisplay() {
-    statsDisplay.textContent = `Player Experience: ${this.player.exp} Zeni: ${this.player.zeni}`;
+    statsDisplay.textContent = `level:${this.player._getLevel(
+      this.player.exp
+    )} Zeni: ${this.player.zeni}`;
   }
   _renderAllItems() {
     let html = "";
