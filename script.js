@@ -1,49 +1,24 @@
 "use strict";
-
-import { items } from "./items.js";
-import { levels } from "./levels.js";
-
-class PlayerObject {
-  inventory = [];
-  constructor(name = "player", exp = 0, zeni = 500) {
-    this.name = name;
-    this.exp = exp;
-    this.zeni = zeni;
-  }
-  _addExp(amount) {
-    this.exp += amount;
-  }
-  _addZeni(amount) {
-    this.zeni += amount;
-  }
-  _addInventory(item) {
-    this.inventory.push(item);
-  }
-  _setName(name) {
-    return (this.name = name);
-  }
-  _getLevel(exp) {
-    const level = levels.find((level, index) => {
-      const nextLevel = levels[index + 1];
-      if (nextLevel) {
-        return exp >= level.exp && exp < nextLevel.exp;
-      } else {
-        return exp >= level.exp;
-      }
-    });
-    return level ? level.level : null;
-  }
-}
+import PlayerObject from "./playerobject.js";
+import Enemy from "./enemy.js";
+import Battle from "./battle.js";
 
 const buttonAddExp = document.querySelector(".button-addExp");
 const statsDisplay = document.querySelector(".statsDisplay");
 const allItemsElement = document.querySelector(".allitems");
 const namedisplayElement = document.querySelector(".nameDisplay");
+const buttonStartBattle = document.querySelector(".button-startBattle");
+const buttonEndBattle = document.querySelector(".button-stopBattle");
 
 class App {
   constructor() {
     this._loadLocalStorage();
     buttonAddExp.addEventListener("click", this._handleAddExp.bind(this));
+    buttonStartBattle.addEventListener(
+      "click",
+      this._handleStartBattle.bind(this)
+    );
+    buttonEndBattle.addEventListener("click", this._handleEndBattle.bind(this));
   }
   _handleAddExp() {
     this._addExp(10);
@@ -55,6 +30,7 @@ class App {
     this._renderNameDisplay();
     this._setLocalStorage();
   }
+
   _renderStatsDisplay() {
     statsDisplay.textContent = `level:${this.player._getLevel(
       this.player.exp
@@ -90,6 +66,16 @@ class App {
       overlayElement.classList.add("hidden");
     });
     console.log(this.player);
+  }
+
+  _handleStartBattle() {
+    this.enemy = new Enemy("rats", 100, 3, 50);
+    this.battle = new Battle(this.player, this.enemy);
+    this.battle._startIdleBattle();
+  }
+
+  _handleEndBattle() {
+    this.battle._endIdleBattle();
   }
 
   _setLocalStorage() {
