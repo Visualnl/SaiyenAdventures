@@ -82,7 +82,7 @@ class App {
 
   _renderBattleLogDisplay(message) {
     const battleLogElement = document.querySelector(".battleLogContent");
-    battleLogElement.insertAdjacentHTML("afterbegin", `<p>${message}</p>`);
+    battleLogElement.insertAdjacentHTML("afterbegin", `<p>  ${message}</p>`);
   }
 
   _handleEndBattle() {

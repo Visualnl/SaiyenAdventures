@@ -25,6 +25,7 @@ class Battle {
     console.log(this.enemy.health);
     console.log(this.battleLogMessage);
     this.logCallback(this.battleLogMessage);
+    console.log(this);
   }
   _playerAttack() {}
 }
