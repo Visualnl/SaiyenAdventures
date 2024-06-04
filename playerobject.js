@@ -6,12 +6,18 @@ class PlayerObject {
   inventory = [];
   questsFinished = [];
   enemiesDefeated = [];
-  constructor(name = "player", exp = 0, zeni = 500, health = 100, attack = 5) {
+  constructor(
+    name = "player",
+    exp = 0,
+    zeni = 500,
+    health = 100,
+    attackDmg = 5
+  ) {
     this.name = name;
     this.exp = exp;
     this.zeni = zeni;
     this.health = health;
-    this.attack = attack;
+    this.attackDmg = attackDmg;
   }
   _addExp(amount) {
     this.exp += amount;
@@ -20,7 +26,7 @@ class PlayerObject {
     this.zeni += amount;
   }
   _attack() {
-    const damage = this.attack;
+    const damage = this.attackDmgk;
     console.log(`gelukt!`);
   }
   _addInventory(item) {

@@ -13,7 +13,6 @@ const buttonEndBattle = document.querySelector(".button-stopBattle");
 class App {
   constructor() {
     this._loadLocalStorage();
-    buttonAddExp.addEventListener("click", this._handleAddExp.bind(this));
     buttonStartBattle.addEventListener(
       "click",
       this._handleStartBattle.bind(this)
@@ -46,10 +45,14 @@ class App {
     allItemsElement.insertAdjacentHTML("afterend", html);
   }
   _renderNameDisplay() {
-    namedisplayElement.innerHTML = `${this.player.name} <span class="editName text-xs text-black-500 cursor-pointer underline ml-2">Change</span>`;
+    namedisplayElement.innerHTML = `${this.player.name} <span class="editName text-xs text-black-500 cursor-pointer underline ml-2">change</span>`;
     const editNameElement = document.querySelector(".editName");
     editNameElement.addEventListener("click", this._handleEditName.bind(this));
   }
+
+  //   _renderBattleLogDisplay() {
+
+  //   }
 
   _handleEditName() {
     const overlayElement = document.getElementById("overlay");
@@ -69,13 +72,22 @@ class App {
   }
 
   _handleStartBattle() {
-    this.enemy = new Enemy("rats", 100, 3, 50);
+    this.enemy = new Enemy("Rat", 100, 3, 50);
     this.battle = new Battle(this.player, this.enemy);
     this.battle._startIdleBattle();
+    buttonStartBattle.classList.add("hidden");
+    buttonEndBattle.classList.remove("hidden");
+    const battleLogElement = document.querySelector(".battleLogContent");
+    battleLogElement.insertAdjacentHTML(
+      "afterbegin",
+      `<p>${this.player.name} vs ${this.enemy.name}</p>`
+    );
   }
 
   _handleEndBattle() {
     this.battle._endIdleBattle();
+    buttonEndBattle.classList.add("hidden");
+    buttonStartBattle.classList.remove("hidden");
   }
 
   _setLocalStorage() {

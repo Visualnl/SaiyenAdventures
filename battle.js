@@ -1,8 +1,10 @@
 class Battle {
   turn = 0;
-  battleID = null;
+  battleID;
+  battleLogMessage;
   constructor(player, enemy) {
     this.player = player;
+    this.enemy = enemy;
   }
 
   _startIdleBattle() {
@@ -17,11 +19,10 @@ class Battle {
 
   _battleLoop() {
     this._playerAttack();
-    this.enemy._takeDamage(this.player.attack);
-    console.log(
-      `${this.player.name} has attacked with ${this.player.attack} damage | enemy health : ${this.enemy.health}`
-    );
-    // this.turn = this.turn === 0 ? 1 : 0;
+    this.enemy._takeDamage(this.player.attackDmg);
+    this.battleLogMessage = `${this.player.name} attacked ${this.enemy.name}`;
+    console.log(this.enemy.health);
+    console.log(this.battleLogMessage);
   }
   _playerAttack() {}
 }
