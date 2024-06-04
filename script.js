@@ -35,6 +35,7 @@ class App {
       this.player.exp
     )} Zeni: ${this.player.zeni}`;
   }
+
   _renderAllItems() {
     let html = "";
     items.forEach((i) => {
@@ -49,10 +50,6 @@ class App {
     const editNameElement = document.querySelector(".editName");
     editNameElement.addEventListener("click", this._handleEditName.bind(this));
   }
-
-  //   _renderBattleLogDisplay() {
-
-  //   }
 
   _handleEditName() {
     const overlayElement = document.getElementById("overlay");
@@ -73,15 +70,19 @@ class App {
 
   _handleStartBattle() {
     this.enemy = new Enemy("Rat", 100, 3, 50);
-    this.battle = new Battle(this.player, this.enemy);
+    this.battle = new Battle(
+      this.player,
+      this.enemy,
+      this._renderBattleLogDisplay.bind(this)
+    );
     this.battle._startIdleBattle();
     buttonStartBattle.classList.add("hidden");
     buttonEndBattle.classList.remove("hidden");
+  }
+
+  _renderBattleLogDisplay(message) {
     const battleLogElement = document.querySelector(".battleLogContent");
-    battleLogElement.insertAdjacentHTML(
-      "afterbegin",
-      `<p>${this.player.name} vs ${this.enemy.name}</p>`
-    );
+    battleLogElement.insertAdjacentHTML("afterbegin", `<p>${message}</p>`);
   }
 
   _handleEndBattle() {
