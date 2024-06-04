@@ -25,7 +25,12 @@ class Battle {
     console.log(this.enemy.health);
     console.log(this.battleLogMessage);
     this.logCallback(this.battleLogMessage);
-    console.log(this);
+    if (this.enemy.health <= 0) {
+      this.battleLogMessage = 'Goku Won!"';
+      this.logCallback(this.battleLogMessage);
+      this.player._addExp(this.enemy.exp)._addZeni(this.enemy.zeni);
+      this._endIdleBattle();
+    }
   }
   _playerAttack() {}
 }

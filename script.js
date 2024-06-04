@@ -69,7 +69,7 @@ class App {
   }
 
   _handleStartBattle() {
-    this.enemy = new Enemy("Rat", 100, 3, 50);
+    this.enemy = new Enemy("Rat", 100, 3, 50, 5);
     this.battle = new Battle(
       this.player,
       this.enemy,

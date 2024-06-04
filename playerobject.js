@@ -21,9 +21,11 @@ class PlayerObject {
   }
   _addExp(amount) {
     this.exp += amount;
+    return this;
   }
   _addZeni(amount) {
     this.zeni += amount;
+    return this;
   }
   _attack() {
     const damage = this.attackDmgk;
