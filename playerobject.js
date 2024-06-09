@@ -6,6 +6,7 @@ class PlayerObject {
   inventory = [];
   questsFinished = [];
   enemiesDefeated = [];
+  regen = 0;
   constructor(
     name = "player",
     exp = 0,
@@ -23,11 +24,17 @@ class PlayerObject {
     this.exp += amount;
     return this;
   }
+  _regen() {
+    if (this.health < 50) {
+      this.regen = 1;
+      this.health = 100;
+    }
+  }
   _addZeni(amount) {
     this.zeni += amount;
     return this;
   }
-  _takeDanage(damage) {
+  _takeDamage(damage) {
     this.health -= damage;
     return this;
   }

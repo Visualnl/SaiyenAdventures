@@ -1,8 +1,8 @@
 class Enemy {
-  constructor(name, health, attack, zeni, exp) {
+  constructor(name, health, attackDmg, zeni, exp) {
     this.name = name;
     this.health = health;
-    this.attack = attack;
+    this.attackDmg = attackDmg;
     this.zeni = zeni;
     this.exp = exp;
   }

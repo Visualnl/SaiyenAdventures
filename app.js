@@ -92,18 +92,21 @@ class App {
     const data = JSON.parse(localStorage.getItem("player"));
     if (!data) {
       this.player = new PlayerObject();
-      this._renderStatsDisplay();
-      this._renderNameDisplay();
-      return;
+    } else {
+      this.player = new PlayerObject(
+        data.name,
+        data.exp,
+        data.zeni,
+        data.health,
+        data.attackDmg
+      );
+      this.player.inventory = data.inventory || [];
+      this.player.questsFinished = data.questsFinished || [];
+      this.player.enemiesDefeated = data.enemiesDefeated || [];
+      this.player.regen = data.regen || 0;
     }
 
-    this.player = new PlayerObject(
-      data.name,
-      data.exp,
-      data.zeni,
-      data.health,
-      data.attackDMG
-    );
+    this.player._regen();
     this._renderStatsDisplay();
     this._renderNameDisplay();
   }
