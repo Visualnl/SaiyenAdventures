@@ -11,6 +11,7 @@ const namedisplayElement = document.querySelector(".nameDisplay");
 const buttonStartBattle = document.querySelector(".button-startBattle");
 const buttonEndBattle = document.querySelector(".button-stopBattle");
 const selectEnemyELement = document.querySelector(".selectEnemies");
+const selectedEnemyElement = document.getElementById("enemies");
 
 class App {
   constructor() {
@@ -70,7 +71,17 @@ class App {
     );
   }
   _handleStartBattle() {
-    this.enemy = new Enemy("Rat", 100, 3, 50, 5);
+    const selectedEnemy = selectedEnemyElement.value;
+    const enemy = enemiesList.find(({ name }) => name === selectedEnemy);
+    console.log(enemy);
+
+    this.enemy = new Enemy(
+      enemy.name,
+      enemy.health,
+      enemy.attackDmg,
+      enemy.zeni,
+      enemy.exp
+    );
     this.battle = new Battle(
       this.player,
       this.enemy,
