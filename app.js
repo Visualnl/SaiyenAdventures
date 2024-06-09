@@ -19,16 +19,6 @@ class App {
     );
     buttonEndBattle.addEventListener("click", this._handleEndBattle.bind(this));
   }
-  _handleAddExp() {
-    this._addExp(10);
-  }
-
-  _addExp(amount) {
-    this.player._addExp(amount);
-    this._renderStatsDisplay();
-    this._renderNameDisplay();
-    this._setLocalStorage();
-  }
 
   _renderStatsDisplay() {
     statsDisplay.textContent = `level:${this.player._getLevel(
@@ -78,9 +68,12 @@ class App {
     this.battle._startIdleBattle();
     buttonStartBattle.classList.add("hidden");
     buttonEndBattle.classList.remove("hidden");
+    this._setLocalStorage();
   }
 
   _renderBattleLogDisplay(message) {
+    this._renderStatsDisplay();
+    console.log(this.player);
     const battleLogElement = document.querySelector(".battleLogContent");
     battleLogElement.insertAdjacentHTML("afterbegin", `<p>  ${message}</p>`);
   }
@@ -89,6 +82,7 @@ class App {
     this.battle._endIdleBattle();
     buttonEndBattle.classList.add("hidden");
     buttonStartBattle.classList.remove("hidden");
+    this._setLocalStorage();
   }
 
   _setLocalStorage() {
@@ -103,7 +97,13 @@ class App {
       return;
     }
 
-    this.player = new PlayerObject(data.name, data.exp, data.zeni);
+    this.player = new PlayerObject(
+      data.name,
+      data.exp,
+      data.zeni,
+      data.health,
+      data.attackDMG
+    );
     this._renderStatsDisplay();
     this._renderNameDisplay();
   }

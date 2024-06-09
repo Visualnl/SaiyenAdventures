@@ -8,6 +8,7 @@ class Enemy {
   }
   _takeDamage(damage) {
     this.health -= damage;
+    return this;
   }
 }
 

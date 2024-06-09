@@ -27,9 +27,9 @@ class PlayerObject {
     this.zeni += amount;
     return this;
   }
-  _attack() {
-    const damage = this.attackDmgk;
-    console.log(`gelukt!`);
+  _takeDanage(damage) {
+    this.health -= damage;
+    return this;
   }
   _addInventory(item) {
     this.inventory.push(item);
