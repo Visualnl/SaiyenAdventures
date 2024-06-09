@@ -27,24 +27,17 @@ class Battle {
       this.enemy._takeDamage(this.player.attackDmg);
       this.battleLogMessage = `${this.player.name} attacked ${this.enemy.name} with  ${this.player.attackDmg} | ${this.enemy.name} health: ${this.enemy.health}`;
       this.logCallback(this.battleLogMessage);
-      this._checkifdie();
+      this._checkIfDie();
     } else {
       this.player._takeDamage(this.enemy.attackDmg);
       this.battleLogMessage = `${this.enemy.name} attacked ${this.player.name}  with  ${this.enemy.attackDmg} | ${this.player.name} health: ${this.player.health}`;
       console.log(this.enemy);
       this.logCallback(this.battleLogMessage);
-      this._checkifdie();
+      this._checkIfDie();
     }
-    // if (this.enemy.health <= 0 || this.player.health <= 0) {
-    //   this.player._addExp(this.enemy.exp)._addZeni(this.enemy.zeni);
-    //   this.battleLogMessage = 'Goku Won!"';
-    //   this.logCallback(this.battleLogMessage);
-
-    //   this._endIdleBattle();
-    // }
     this.turn = this.turn === 0 ? 1 : 0;
   }
-  _checkifdie() {
+  _checkIfDie() {
     if (this.player.health > 0 && this.enemy.health > 0) return;
     if (this.enemy.health <= 0) {
       this.player._addExp(this.enemy.exp)._addZeni(this.enemy.zeni);

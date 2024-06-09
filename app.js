@@ -2,6 +2,7 @@
 import PlayerObject from "./playerobject.js";
 import Enemy from "./enemy.js";
 import Battle from "./battle.js";
+import { enemiesList } from "./enemieslist.js";
 
 const buttonAddExp = document.querySelector(".button-addExp");
 const statsDisplay = document.querySelector(".statsDisplay");
@@ -9,6 +10,7 @@ const allItemsElement = document.querySelector(".allitems");
 const namedisplayElement = document.querySelector(".nameDisplay");
 const buttonStartBattle = document.querySelector(".button-startBattle");
 const buttonEndBattle = document.querySelector(".button-stopBattle");
+const selectEnemyELement = document.querySelector(".selectEnemies");
 
 class App {
   constructor() {
@@ -18,6 +20,7 @@ class App {
       this._handleStartBattle.bind(this)
     );
     buttonEndBattle.addEventListener("click", this._handleEndBattle.bind(this));
+    this._renderEnemiesList();
   }
 
   _renderStatsDisplay() {
@@ -58,6 +61,14 @@ class App {
     console.log(this.player);
   }
 
+  _renderEnemiesList() {
+    enemiesList.forEach((enemy) =>
+      selectEnemyELement.insertAdjacentHTML(
+        "beforeend",
+        `<option value="${enemy.name}">${enemy.name}</option>`
+      )
+    );
+  }
   _handleStartBattle() {
     this.enemy = new Enemy("Rat", 100, 3, 50, 5);
     this.battle = new Battle(
