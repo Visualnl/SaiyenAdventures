@@ -12,7 +12,7 @@ class PlayerObject {
     exp = 0,
     zeni = 500,
     health = 100,
-    attackDmg = 5
+    attackDmg = 100
   ) {
     this.name = name;
     this.exp = exp;
@@ -38,8 +38,13 @@ class PlayerObject {
     this.health -= damage;
     return this;
   }
-  _addInventory(item) {
-    this.inventory.push(item);
+  _addInventory(itemName) {
+    const existingItem = this.inventory.find((item) => item.name === itemName);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      this.inventory.push({ name: itemName, quantity: 1 });
+    }
   }
   _setName(name) {
     return (this.name = name);

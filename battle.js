@@ -11,7 +11,7 @@ class Battle {
 
   _startIdleBattle() {
     this.player.regen = 0;
-    this.battleLogMessagebattle = 1;
+    this.battle = 1;
     this.battleID = setInterval(() => {
       this._battleLoop();
     }, 1000);
@@ -31,7 +31,6 @@ class Battle {
     } else {
       this.player._takeDamage(this.enemy.attackDmg);
       this.battleLogMessage = `${this.enemy.name} attacked ${this.player.name}  with  ${this.enemy.attackDmg} | ${this.player.name} health: ${this.player.health}`;
-      console.log(this.enemy);
       this.logCallback(this.battleLogMessage);
       this._checkIfDie();
     }
@@ -41,7 +40,9 @@ class Battle {
     if (this.player.health > 0 && this.enemy.health > 0) return;
     if (this.enemy.health <= 0) {
       this.player._addExp(this.enemy.exp)._addZeni(this.enemy.zeni);
-      this.battleLogMessage = `You defeated ${this.enemy.name}`;
+      const lootdrop = this._lootdrop(this.enemy.loot);
+      this.battleLogMessage = `You defeated ${this.enemy.name} and it dropped ${lootdrop}`;
+      this.player._addInventory(lootdrop);
       this.logCallback(this.battleLogMessage);
       this._endIdleBattle();
     }
@@ -50,6 +51,10 @@ class Battle {
       this.logCallback(this.battleLogMessage);
       this._endIdleBattle();
     }
+  }
+  _lootdrop(loot) {
+    const randomNumber = Math.floor(Math.random() * loot.length);
+    return loot[randomNumber];
   }
 }
 

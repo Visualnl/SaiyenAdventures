@@ -27,6 +27,7 @@
           </h2>
           <div class="battleLogContent h-64 overflow-y-auto"></div>
         </div>
+
         <div class="buttonContainer space-x-2 flex justify-center">
           <button
             class="button-startBattle bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded active"
@@ -42,9 +43,30 @@
             id="enemies"
             class="selectEnemies bg-indigo-500 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <!-- <option selected>Choose a enemy</option> -->
+            <!-- <option selected>Choose an enemy</option> -->
           </select>
         </div>
+
+        <div class="inventoryContainer bg-white p-4 rounded-lg shadow-lg">
+          <h2
+            class="text-xl font-bold mb-2 bg-indigo-500 text-center text-white"
+          >
+            Inventory
+          </h2>
+          <div class="inventoryContent grid grid-cols-10 gap-2 h-20">
+            <!-- Placeholder for inventory items -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Quest List Widget -->
+      <div
+        class="questListContainer bg-white p-4 rounded-lg shadow-lg w-1/4 ml-4"
+      >
+        <h2 class="text-xl font-bold mb-2 bg-indigo-500 text-center text-white">
+          Quest List
+        </h2>
+        <div class="questListContent h-40 overflow-y-auto"></div>
       </div>
     </div>
 

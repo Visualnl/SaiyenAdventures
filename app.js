@@ -3,6 +3,7 @@ import PlayerObject from "./playerobject.js";
 import Enemy from "./enemy.js";
 import Battle from "./battle.js";
 import { enemiesList } from "./enemieslist.js";
+import { quests } from "./quests.js";
 
 const buttonAddExp = document.querySelector(".button-addExp");
 const statsDisplay = document.querySelector(".statsDisplay");
@@ -12,6 +13,8 @@ const buttonStartBattle = document.querySelector(".button-startBattle");
 const buttonEndBattle = document.querySelector(".button-stopBattle");
 const selectEnemyELement = document.querySelector(".selectEnemies");
 const selectedEnemyElement = document.getElementById("enemies");
+const inventoryContent = document.querySelector(".inventoryContent");
+const questListContent = document.querySelector(".questListContent");
 
 class App {
   constructor() {
@@ -22,6 +25,8 @@ class App {
     );
     buttonEndBattle.addEventListener("click", this._handleEndBattle.bind(this));
     this._renderEnemiesList();
+    this._renderInventory();
+    this._renderQuestList();
   }
 
   _renderStatsDisplay() {
@@ -30,15 +35,6 @@ class App {
     )} Zeni: ${this.player.zeni}`;
   }
 
-  _renderAllItems() {
-    let html = "";
-    items.forEach((i) => {
-      html += `
-     <span class="test">${i.name}
-     `;
-    });
-    allItemsElement.insertAdjacentHTML("afterend", html);
-  }
   _renderNameDisplay() {
     namedisplayElement.innerHTML = `${this.player.name} <span class="editName text-xs text-black-500 cursor-pointer underline ml-2">change</span>`;
     const editNameElement = document.querySelector(".editName");
@@ -59,7 +55,6 @@ class App {
       this._setLocalStorage();
       overlayElement.classList.add("hidden");
     });
-    console.log(this.player);
   }
 
   _renderEnemiesList() {
@@ -73,14 +68,14 @@ class App {
   _handleStartBattle() {
     const selectedEnemy = selectedEnemyElement.value;
     const enemy = enemiesList.find(({ name }) => name === selectedEnemy);
-    console.log(enemy);
 
     this.enemy = new Enemy(
       enemy.name,
       enemy.health,
       enemy.attackDmg,
       enemy.zeni,
-      enemy.exp
+      enemy.exp,
+      enemy.loot
     );
     this.battle = new Battle(
       this.player,
@@ -95,7 +90,7 @@ class App {
 
   _renderBattleLogDisplay(message) {
     this._renderStatsDisplay();
-    console.log(this.player);
+
     const battleLogElement = document.querySelector(".battleLogContent");
     battleLogElement.insertAdjacentHTML("afterbegin", `<p>  ${message}</p>`);
   }
@@ -105,6 +100,40 @@ class App {
     buttonEndBattle.classList.add("hidden");
     buttonStartBattle.classList.remove("hidden");
     this._setLocalStorage();
+    this._renderInventory();
+  }
+  _renderInventory() {
+    inventoryContent.innerHTML = "";
+    this.player.inventory.forEach((item) =>
+      inventoryContent.insertAdjacentHTML(
+        "beforeend",
+        `<div class="p-2 border border-gray-300 rounded-lg bg-gray-200 flex justify-center items-center">
+   ${item.name}(${item.quantity})
+  </div> `
+      )
+    );
+  }
+  _renderQuestList() {
+    quests.forEach((quest) => {
+      const questItem = document.createElement("div");
+      questItem.classList.add(
+        "p-2",
+        "border",
+        "border-gray-300",
+        "rounded-lg",
+        "bg-red-500"
+      );
+
+      questItem.textContent = `${quest.name} by ${quest.trainer}`;
+
+      const requiredItems = quest.required
+        .map((item) => `${item.quantity} ${item.name}`)
+        .join(", ");
+      const requiredItemsElement = document.createElement("div");
+      requiredItemsElement.textContent = `${requiredItems}`;
+      questItem.appendChild(requiredItemsElement);
+      questListContent.insertAdjacentElement("beforeend", questItem);
+    });
   }
 
   _setLocalStorage() {
@@ -126,6 +155,7 @@ class App {
       this.player.questsFinished = data.questsFinished || [];
       this.player.enemiesDefeated = data.enemiesDefeated || [];
       this.player.regen = data.regen || 0;
+      this.player.loot = data.loot || [];
     }
 
     this.player._regen();
