@@ -144,7 +144,7 @@ class App {
         .map((item) => `${item.quantity} ${item.name}`)
         .join(", ");
       const requiredItemsElement = document.createElement("div");
-      requiredItemsElement.textContent = `Required items: ${requiredItems}`;
+      requiredItemsElement.textContent = ` ${requiredItems}`;
       questItem.appendChild(requiredItemsElement);
       questListContent.insertAdjacentElement("beforeend", questItem);
     });
