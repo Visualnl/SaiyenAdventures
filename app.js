@@ -101,6 +101,7 @@ class App {
     buttonStartBattle.classList.remove("hidden");
     this._setLocalStorage();
     this._renderInventory();
+    this._renderQuestList();
   }
   _renderInventory() {
     inventoryContent.innerHTML = "";
@@ -113,15 +114,28 @@ class App {
       )
     );
   }
+
   _renderQuestList() {
+    questListContent.innerHTML = "";
     quests.forEach((quest) => {
       const questItem = document.createElement("div");
+      let hasRequiredItems = true;
+
+      quest.required.forEach((requiredItem) => {
+        const playerItem = this.player.inventory.find(
+          (item) => item.name === requiredItem.name
+        );
+        if (!playerItem || playerItem.quantity < requiredItem.quantity) {
+          hasRequiredItems = false;
+        }
+      });
+
       questItem.classList.add(
         "p-2",
         "border",
         "border-gray-300",
         "rounded-lg",
-        "bg-red-500"
+        hasRequiredItems ? "bg-green-500" : "bg-red-500"
       );
 
       questItem.textContent = `${quest.name} by ${quest.trainer}`;
@@ -130,7 +144,7 @@ class App {
         .map((item) => `${item.quantity} ${item.name}`)
         .join(", ");
       const requiredItemsElement = document.createElement("div");
-      requiredItemsElement.textContent = `${requiredItems}`;
+      requiredItemsElement.textContent = `Required items: ${requiredItems}`;
       questItem.appendChild(requiredItemsElement);
       questListContent.insertAdjacentElement("beforeend", questItem);
     });
